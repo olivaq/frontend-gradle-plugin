@@ -332,7 +332,9 @@ public class FrontendGradlePlugin implements Plugin<Project> {
         task.getYarnVersion().set(extension.getYarnVersion());
         task.getYarnInstallScript().set(extension.getYarnInstallScript());
         task.setOnlyIf(t -> extension.getYarnEnabled().get());
-        configureDependency(taskContainer, task, ENABLE_YARN_BERRY_TASK_NAME, EnableYarnBerryTask.class);
+        if(extension.getYarnVersion().map(k -> k.split(".")[0].equals("1")).orElse(false).get()) {
+            configureDependency(taskContainer, task, ENABLE_YARN_BERRY_TASK_NAME, EnableYarnBerryTask.class);
+        }
     }
 
     /**
